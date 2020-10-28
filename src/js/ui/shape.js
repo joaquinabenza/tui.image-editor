@@ -28,6 +28,10 @@ class Shape extends Submenu {
             usageStatistics
         });
         this.type = null;
+
+        if (options.range && options.range.value) {
+            options.strokeWidth = options.range.value;
+        }
         this.options = snippet.extend(SHAPE_DEFAULT_OPTION, options);
 
         this._els = {
@@ -36,9 +40,9 @@ class Shape extends Submenu {
             strokeRange: new Range({
                 slider: this.selector('.tie-stroke-range'),
                 input: this.selector('.tie-stroke-range-value')
-            }, defaultShapeStrokeValus),
+            }, snippet.extend(defaultShapeStrokeValus, options.range)),
             fillColorpicker: new Colorpicker(
-                this.selector('.tie-color-fill'), '', this.toggleDirection, this.usageStatistics
+                this.selector('.tie-color-fill'), options.fill || '', this.toggleDirection, this.usageStatistics
             ),
             strokeColorpicker: new Colorpicker(
                 this.selector('.tie-color-stroke'), options.stroke || '#ffbb3b', this.toggleDirection, this.usageStatistics
