@@ -126,6 +126,7 @@ const {
  *  @param {string} [options.selectionStyle.borderColor] - selection border color
  *  @param {number} [options.selectionStyle.rotatingPointOffset] - selection rotating point length
  *  @param {Boolean} [options.usageStatistics=true] - Let us know the hostname. If you don't want to send the hostname, please set to false.
+ *  @param {Boolean} [options.keyboardShortcuts=true] - Enables keyboard shortcuts.
  * @example
  * var ImageEditor = require('tui-image-editor');
  * var blackTheme = require('./js/theme/black-theme.js');
@@ -156,7 +157,8 @@ class ImageEditor {
     constructor(wrapper, options) {
         options = snippet.extend({
             includeUI: false,
-            usageStatistics: true
+            usageStatistics: true,
+            keyboardShortcuts: true
         }, options);
 
         this.mode = null;
@@ -221,7 +223,11 @@ class ImageEditor {
 
         this._attachInvokerEvents();
         this._attachGraphicsEvents();
-        this._attachDomEvents();
+
+        if (options.keyboardShortcuts) {
+            this._attachDomEvents();
+        }
+
         this._setSelectionStyle(options.selectionStyle, {
             applyCropSelectionStyle: options.applyCropSelectionStyle,
             applyGroupSelectionStyle: options.applyGroupSelectionStyle
