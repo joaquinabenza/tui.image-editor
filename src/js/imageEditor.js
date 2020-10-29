@@ -28,6 +28,7 @@ const {
     ICON_CREATE_END,
     SELECTION_CLEARED,
     SELECTION_CREATED,
+    TOOL_SELECTED,
     ADD_OBJECT_AFTER} = events;
 
 /**
@@ -126,6 +127,7 @@ const {
  *  @param {string} [options.selectionStyle.borderColor] - selection border color
  *  @param {number} [options.selectionStyle.rotatingPointOffset] - selection rotating point length
  *  @param {Boolean} [options.usageStatistics=true] - Let us know the hostname. If you don't want to send the hostname, please set to false.
+ *  @param {Boolean} [options.keyboardShortcuts=true] - Enables keyboard shortcuts.
  * @example
  * var ImageEditor = require('tui-image-editor');
  * var blackTheme = require('./js/theme/black-theme.js');
@@ -156,7 +158,8 @@ class ImageEditor {
     constructor(wrapper, options) {
         options = snippet.extend({
             includeUI: false,
-            usageStatistics: true
+            usageStatistics: true,
+            keyboardShortcuts: true
         }, options);
 
         this.mode = null;
@@ -216,12 +219,18 @@ class ImageEditor {
             iconCreateResize: this._onIconCreateResize.bind(this),
             iconCreateEnd: this._onIconCreateEnd.bind(this),
             selectionCleared: this._selectionCleared.bind(this),
-            selectionCreated: this._selectionCreated.bind(this)
+            selectionCreated: this._selectionCreated.bind(this),
+            toolSelected: this._toolSelected.bind(this)
         };
 
         this._attachInvokerEvents();
         this._attachGraphicsEvents();
-        this._attachDomEvents();
+        this._attachUiEvents();
+
+        if (options.keyboardShortcuts) {
+            this._attachDomEvents();
+        }
+
         this._setSelectionStyle(options.selectionStyle, {
             applyCropSelectionStyle: options.applyCropSelectionStyle,
             applyGroupSelectionStyle: options.applyGroupSelectionStyle
@@ -316,6 +325,20 @@ class ImageEditor {
             [ICON_CREATE_END]: this._handlers.iconCreateEnd,
             [SELECTION_CLEARED]: this._handlers.selectionCleared,
             [SELECTION_CREATED]: this._handlers.selectionCreated
+        });
+    }
+
+    /**
+     * Attach UI events
+     * @private
+     */
+    _attachUiEvents() {
+        if (!this.ui) {
+            return;
+        }
+
+        this.ui.on({
+            [TOOL_SELECTED]: this._handlers.toolSelected
         });
     }
 
@@ -1250,6 +1273,15 @@ class ImageEditor {
      */
     _selectionCreated(eventTarget) {
         this.fire(SELECTION_CREATED, eventTarget);
+    }
+
+    /**
+     * 'toolSelected' event handler
+     * @param {string} toolName - Selected tool name
+     * @private
+     */
+    _toolSelected(toolName) {
+        this.fire(TOOL_SELECTED, toolName);
     }
 
     /**

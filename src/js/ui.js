@@ -1,5 +1,5 @@
 import snippet from 'tui-code-snippet';
-import {HELP_MENUS} from './consts';
+import {HELP_MENUS, eventNames as events} from './consts';
 import {getSelector, assignmentForDestroy, cls} from './util';
 import mainContainer from './ui/template/mainContainer';
 import controls from './ui/template/controls';
@@ -222,13 +222,16 @@ class Ui {
             // menu btn element
             this._buttonElements[menuName] = this._menuElement.querySelector(`.tie-btn-${menuName}`);
 
+            // options per menu item
+            const options = this.options[menuName] || {};
+
             // submenu ui instance
             this[menuName] = new SubComponentClass(this._subMenuElement, {
                 locale: this._locale,
                 makeSvgIcon: this.theme.makeMenSvgIconSet.bind(this.theme),
                 menuBarPosition: this.options.menuBarPosition,
                 usageStatistics: this.options.usageStatistics
-            });
+            }, options);
         });
     }
 
@@ -574,6 +577,7 @@ class Ui {
         if (this.submenu === menuName && toggle) {
             this.submenu = null;
         } else {
+            this.fire(events.TOOL_SELECTED, menuName);
             this._buttonElements[menuName].classList.add('active');
             this._mainElement.classList.add(`tui-image-editor-menu-${menuName}`);
             this.submenu = menuName;
@@ -658,4 +662,5 @@ class Ui {
     }
 }
 
+snippet.CustomEvents.mixin(Ui);
 export default Ui;
