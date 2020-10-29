@@ -28,6 +28,7 @@ const {
     ICON_CREATE_END,
     SELECTION_CLEARED,
     SELECTION_CREATED,
+    TOOL_SELECTED,
     ADD_OBJECT_AFTER} = events;
 
 /**
@@ -218,11 +219,13 @@ class ImageEditor {
             iconCreateResize: this._onIconCreateResize.bind(this),
             iconCreateEnd: this._onIconCreateEnd.bind(this),
             selectionCleared: this._selectionCleared.bind(this),
-            selectionCreated: this._selectionCreated.bind(this)
+            selectionCreated: this._selectionCreated.bind(this),
+            toolSelected: this._toolSelected.bind(this)
         };
 
         this._attachInvokerEvents();
         this._attachGraphicsEvents();
+        this._attachUiEvents();
 
         if (options.keyboardShortcuts) {
             this._attachDomEvents();
@@ -322,6 +325,20 @@ class ImageEditor {
             [ICON_CREATE_END]: this._handlers.iconCreateEnd,
             [SELECTION_CLEARED]: this._handlers.selectionCleared,
             [SELECTION_CREATED]: this._handlers.selectionCreated
+        });
+    }
+
+    /**
+     * Attach UI events
+     * @private
+     */
+    _attachUiEvents() {
+        if (!this.ui) {
+            return;
+        }
+
+        this.ui.on({
+            [TOOL_SELECTED]: this._handlers.toolSelected
         });
     }
 
@@ -1256,6 +1273,15 @@ class ImageEditor {
      */
     _selectionCreated(eventTarget) {
         this.fire(SELECTION_CREATED, eventTarget);
+    }
+
+    /**
+     * 'toolSelected' event handler
+     * @param {string} toolName - Selected tool name
+     * @private
+     */
+    _toolSelected(toolName) {
+        this.fire(TOOL_SELECTED, toolName);
     }
 
     /**
