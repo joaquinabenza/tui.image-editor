@@ -467,16 +467,16 @@ export default {
             addText: pos => {
                 const {
                     textColor: fill,
+                    fontFamily,
                     fontSize,
                     fontStyle,
                     fontWeight,
                     underline
                 } = this.ui.text;
-                const fontFamily = 'Noto Sans';
 
                 this.addText('Double Click', {
                     position: pos.originPosition,
-                    styles: {fill, fontSize, fontFamily, fontStyle, fontWeight, underline}
+                    styles: {fill, fontFamily, fontSize, fontStyle, fontWeight, underline}
                 }).then(() => {
                     this.changeCursor('default');
                 });

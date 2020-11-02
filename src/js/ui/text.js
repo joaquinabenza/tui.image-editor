@@ -27,6 +27,7 @@ export default class Text extends Submenu {
             underline: false
         };
         this.align = 'left';
+        this.fontFamily = options.fontFamily || 'Noto Sans';
         this._els = {
             textEffectButton: this.selector('.tie-text-effect-button'),
             textAlignButton: this.selector('.tie-text-align-button'),
