@@ -310,7 +310,7 @@ imageEditor.on({
         }
     },
     addText: function(pos) {
-        imageEditor.addText('Double Click', {
+        imageEditor.addText('Introducir Texto', {
             position: pos.originPosition
         }).then(function(objectProps) {
             console.log(objectProps);

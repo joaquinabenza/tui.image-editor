@@ -474,7 +474,7 @@ export default {
                     underline
                 } = this.ui.text;
 
-                this.addText('Double Click', {
+                this.addText('Introducir Texto', {
                     position: pos.originPosition,
                     styles: {fill, fontFamily, fontSize, fontStyle, fontWeight, underline}
                 }).then(() => {
