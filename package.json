@@ -1,7 +1,7 @@
 {
-  "name": "jab-tui-image-editor",
+  "name": "jab-image-editor",
   "author": "Notin <jjabenza81@gmail.com>",
-  "version": "1.4.1",
+  "version": "1.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",
