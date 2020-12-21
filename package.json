@@ -1,13 +1,13 @@
 {
   "name": "jab-image-editor",
   "author": "Notin <jjabenza81@gmail.com>",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/joaquinabenza/tui.image-editor.git"
   },
-  "main": "dist/jab-tui-image-editor.js",
+  "main": "dist/jab-image-editor.js",
   "files": [
     "src",
     "dist",
